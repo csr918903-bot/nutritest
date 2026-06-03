@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nutrivida</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <div class="sidebar-top">
+
+        <div class="close-btn" id="closeMenu">✖</div>
+
+        <a href="profile.html" class="profile-link">
+            <img 
+            id="sidebarProfile"
+            src="https://ui-avatars.com/api/?name=Nutri+Vida&background=1e473d&color=fff" 
+            alt="User">
+        </a>
+
+        <h3 id="sidebarName">Nutrivida</h3>
+        <span>Seja bem vindo</span>
+
+    </div>
+
+    <div class="sidebar-content">
+
+        <p class="section-title">GERAL</p>
+
+        <ul>
+
+            <li><a href="index.html"> Início</a></li>
+
+            <li><a href="chatbot.html"> Chatbot</a></li>
+
+            <li><a href="profile.html"> Perfil</a></li>
+
+            <li><a href="login.html"> Login</a></li>
+
+            <li><a href="calcuimc.html">imc</a></li>
+        </ul>
+
+    </div>
+
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay"></div>
+
+<!-- NAVBAR -->
+<header class="navbar">
+
+    <div class="logo">
+        🌱 <span>Nutrivida</span>
+    </div>
+
+    <div class="navbar-actions">
+
+        <div class="notification-icon">
+            🔔<span class="badge">2</span>
+        </div>
+
+        <div class="user-profile-img">
+            <a href="profile.html">
+                <img 
+                id="navbarProfile"
+                src="https://via.placeholder.com/35" 
+                alt="Perfil">
+            </a>
+        </div>
+
+        <div class="menu-icon" id="hamburger">
+            ☰
+        </div>
+
+    </div>
+
+</header>
+
+<!-- HERO -->
+<section class="hero">
+
+<div class="hero-card">
+
+<h1>Sua dieta,<br>reimaginada por IA</h1>
+
+<p>
+Converse com nossa IA e conte tudo sobre sua rotina,
+preferências e objetivos. Em segundos você recebe
+um plano alimentar personalizado.
+</p>
+
+</div>
+
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="como-funciona">
+
+<h2>Como Funciona</h2>
+
+<p class="descricao">
+Entenda o passo a passo da sua jornada: você responde algumas perguntas
+sobre sua vida, nossa IA analisa cada detalhe e, em seguida,
+você recebe um plano totalmente personalizado.
+</p>
+
+<div class="passo">
+
+<h3>01</h3>
+
+<h4>Dados Físicos</h4>
+
+<p>
+Coletamos dados como peso, idade e gênero,
+garantindo personalização total de forma segura.
+</p>
+
+</div>
+
+<div class="passo">
+
+<h3>02</h3>
+
+<h4>Análise por IA</h4>
+
+<p>
+Nossos algoritmos processam suas informações
+para otimizar seu metabolismo e estilo de vida.
+</p>
+
+</div>
+
+<div class="passo">
+
+<h3>03</h3>
+
+<h4>Plano Personalizado</h4>
+
+<p>
+Você recebe um guia alimentar prático,
+com receitas reais e seguras.
+</p>
+
+</div>
+
+</section>
+
+<!-- SAUDE -->
+<section class="saude">
+
+<div class="saude-card">
+
+<h2>Saúde Integral</h2>
+
+<p>
+Unimos a potência da inteligência artificial avançada
+ao olhar experiente de profissionais de nutrição humana.
+Criamos estratégias que mantêm a consistência e o prazer
+de comer bem em todas as fases da vida.
+</p>
+
+<button onclick="window.location.href='chatbot.html'">
+Saiba Mais
+</button>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+
+<div class="footer-logo">
+🌱 Nutrivida
+</div>
+
+<p>
+Nutrivida: sua rota para o bem-estar através
+de planos nutricionais inteligentes e personalizados.
+</p>
+
+<p class="copy">
+© 2026 Nutrivida. Todos os direitos reservados.
+</p>
+
+<div class="contato">
+
+<h4>Contato</h4>
+
+<p>contato@nutrivida.ai</p>
+
+<p>Brasil</p>
+
+</div>
+
+</footer>
+
+<script>
+
+const menuBtn = document.getElementById("hamburger");
+const sidebar = document.querySelector(".sidebar");
+const overlay = document.getElementById("overlay");
+const closeBtn = document.getElementById("closeMenu");
+
+// ABRIR MENU
+menuBtn.addEventListener("click", () => {
+
+    sidebar.classList.add("active");
+    overlay.classList.add("active");
+    document.body.classList.add("menu-open");
+});
+
+// FECHAR MENU
+function closeMenu() {
+
+    sidebar.classList.remove("active");
+    overlay.classList.remove("active");
+    document.body.classList.remove("menu-open");
+}
+
+overlay.addEventListener("click", closeMenu);
+
+closeBtn.addEventListener("click", closeMenu);
+
+document.addEventListener("keydown", (e) => {
+
+    if (e.key === "Escape") {
+        closeMenu();
+    }
+});
+
+// FOTO PERFIL
+const savedPhoto = localStorage.getItem("profilePhoto");
+
+if(savedPhoto){
+
+    document.getElementById("navbarProfile").src = savedPhoto;
+    document.getElementById("sidebarProfile").src = savedPhoto;
+}
+
+// NOME PERFIL
+const savedName = localStorage.getItem("profileName");
+
+if(savedName){
+
+    document.getElementById("sidebarName").innerText = savedName;
+}
+function syncUser(){
+
+  const name = localStorage.getItem("profileName") || "Nutrivida";
+  const photo = localStorage.getItem("profilePhoto") || "https://ui-avatars.com/api/?name=Nutrivida";
+
+  const sidebarName = document.getElementById("sidebarName");
+  const navbarProfile = document.getElementById("navbarProfile");
+  const sidebarProfile = document.getElementById("sidebarProfile");
+
+  if(sidebarName) sidebarName.innerText = name;
+  if(navbarProfile) navbarProfile.src = photo;
+  if(sidebarProfile) sidebarProfile.src = photo;
+
+}
+
+/* carrega ao abrir página */
+document.addEventListener("DOMContentLoaded", syncUser);
+
+/* atualiza entre páginas */
+window.addEventListener("storage", syncUser);
+</script>
+
+</body>
+</html>

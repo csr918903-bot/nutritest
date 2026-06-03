@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IMC - Nutrivida</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* ===== SOMENTE LAYOUT (SEM MEXER NA IDENTIDADE) ===== */
+
+.imc-wrapper{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  align-items:flex-start;
+  padding:40px 20px;
+  flex-wrap:wrap;
+}
+
+/* CARD IMC (leve, sem mudar cores do site) */
+.imc-card{
+  background:#fff;
+  padding:25px;
+  border-radius:15px;
+  width:100%;
+  max-width:380px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.imc-card h2{
+  color:#1e473d;
+  margin-bottom:15px;
+}
+
+/* INPUTS seguem padrão neutro */
+input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+
+/* botão respeita cor do site */
+button{
+  width:100%;
+  padding:12px;
+  background:#1e473d;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* resultado */
+#resultado{
+  margin-top:12px;
+  font-weight:bold;
+  color:#1e473d;
+}
+
+/* ===== TABELA (lado direito, sem mudar estilo original muito) ===== */
+
+.table-card{
+  background:#fff;
+  padding:20px;
+  border-radius:15px;
+  width:100%;
+  max-width:450px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.table-card h3{
+  text-align:center;
+  color:#1e473d;
+  margin-bottom:10px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+thead td{
+  background:#1e473d;
+  color:white;
+  padding:10px;
+  font-weight:bold;
+  text-align:center;
+}
+
+td{
+  padding:10px;
+  border-bottom:1px solid #eee;
+}
+
+/* destaque (leve, sem exagero) */
+.result_calc td{
+  background:#cfead6;
+  font-weight:bold;
+}
+
+/* RESPONSIVO: no celular tabela vai pra baixo */
+@media(max-width:800px){
+  .imc-wrapper{
+    flex-direction:column;
+    align-items:center;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ===== SEU MENU (SEM ALTERAÇÃO) ===== -->
+
+<div class="sidebar">
+
+    <div class="sidebar-top">
+
+        <div class="close-btn" id="closeMenu">✖</div>
+
+        <a href="profile.html" class="profile-link">
+            <img id="sidebarProfile"
+            src="https://ui-avatars.com/api/?name=Nutri+Vida&background=1e473d&color=fff">
+        </a>
+
+        <h3 id="sidebarName">Nutrivida</h3>
+        <span>Seja bem vindo</span>
+
+    </div>
+
+    <div class="sidebar-content">
+
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="chatbot.html">Chatbot</a></li>
+            <li><a href="profile.html">Perfil</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="calcuimc.html">imc</a></li>
+        </ul>
+
+    </div>
+
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<header class="navbar">
+
+    <div class="logo">🌱 Nutrivida</div>
+
+    <div class="menu-icon" id="hamburger">☰</div>
+
+</header>
+
+<!-- ===== IMC + TABELA ===== -->
+
+<section class="imc-wrapper">
+
+<!-- CALCULADORA -->
+<div class="imc-card">
+
+<h2>Calculadora de IMC</h2>
+
+<input type="number" id="peso" placeholder="Peso (kg)">
+<input type="number" id="altura" placeholder="Altura (cm)">
+
+<button onclick="calcularIMC()">Calcular</button>
+
+<div id="resultado"></div>
+
+</div>
+
+<!-- TABELA -->
+<div class="table-card">
+
+<h3>Classificação do IMC</h3>
+
+<table>
+
+<thead>
+<tr>
+<td>IMC</td>
+<td>Classificação</td>
+</tr>
+</thead>
+
+<tbody>
+<tr id="r0"><td>&lt; 17</td><td>Muito abaixo do peso</td></tr>
+<tr id="r1"><td>17 - 18,4</td><td>Abaixo do peso</td></tr>
+<tr id="r2"><td>18,5 - 24,9</td><td>Peso normal</td></tr>
+<tr id="r3"><td>25 - 29,9</td><td>Sobrepeso</td></tr>
+<tr id="r4"><td>30 - 34,9</td><td>Obesidade I</td></tr>
+<tr id="r5"><td>35 - 39,9</td><td>Obesidade II</td></tr>
+<tr id="r6"><td>40+</td><td>Obesidade III</td></tr>
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<script>
+
+/* MENU (SEU ORIGINAL) */
+
+const menuBtn = document.getElementById("hamburger");
+const sidebar = document.querySelector(".sidebar");
+const overlay = document.getElementById("overlay");
+const closeBtn = document.getElementById("closeMenu");
+
+menuBtn.addEventListener("click", () => {
+  sidebar.classList.add("active");
+  overlay.classList.add("active");
+});
+
+function closeMenu(){
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+}
+
+overlay.addEventListener("click", closeMenu);
+closeBtn.addEventListener("click", closeMenu);
+
+/* IMC */
+
+function calcularIMC(){
+
+  let peso = Number(document.getElementById("peso").value);
+  let altura = Number(document.getElementById("altura").value);
+  let resultado = document.getElementById("resultado");
+
+  if(!peso || !altura){
+    resultado.innerHTML = "Preencha todos os campos!";
+    return;
+  }
+
+  let imc = peso / ((altura/100) * (altura/100));
+
+  let index = 0;
+
+  if(imc < 17) index = 0;
+  else if(imc < 18.5) index = 1;
+  else if(imc < 25) index = 2;
+  else if(imc < 30) index = 3;
+  else if(imc < 35) index = 4;
+  else if(imc < 40) index = 5;
+  else index = 6;
+
+  for(let i=0;i<=6;i++){
+    document.getElementById("r"+i).classList.remove("result_calc");
+  }
+
+  document.getElementById("r"+index).classList.add("result_calc");
+
+  resultado.innerHTML = `IMC: <strong>${imc.toFixed(2)}</strong>`;
+}
+
+</script>
+
+</body>
+</html>

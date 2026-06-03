@@ -1,0 +1,299 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    }
+    
+    body{
+    font-family:'Poppins',sans-serif;
+    background:#f5f5f5;
+    color:#23433b;
+    overflow-x:hidden;
+    }
+    
+    /* NAVBAR */
+    
+    .navbar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 30px;
+    background:#ffffff;
+    border-bottom:1px solid #e0e0e0;
+    box-shadow:0 2px 5px rgba(0,0,0,0.05);
+    position:sticky;
+    top:0;
+    z-index:999;
+    }
+    
+    .logo {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:700;
+    font-size:20px;
+    color:#1e473d;
+    }
+    
+    .navbar-actions {
+    display:flex;
+    align-items:center;
+    gap:18px;
+    }
+    
+    .menu-icon {
+    font-size:28px;
+    cursor:pointer;
+    color:#1e473d;
+    }
+    
+    .badge{
+    background:#2e7d32;
+    color:white;
+    border-radius:50%;
+    padding:2px 6px;
+    font-size:10px;
+    position:absolute;
+    margin-left:-8px;
+    margin-top:-5px;
+    }
+    
+    .user-profile-img img{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    object-fit:cover;
+    cursor:pointer;
+    }
+    
+    /* SIDEBAR */
+    
+    .sidebar{
+    position:fixed;
+    top:0;
+    right:0;
+    width:320px;
+    height:100vh;
+    background:#ffffff;
+    padding:25px;
+    transform:translateX(100%);
+    transition:0.35s;
+    z-index:1001;
+    box-shadow:-10px 0 30px rgba(0,0,0,0.15);
+    overflow-y:auto;
+    }
+    
+    .sidebar.active{
+    transform:translateX(0);
+    }
+    
+    .sidebar-top{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-top:20px;
+    }
+    
+    .sidebar-top img{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:15px;
+    }
+    
+    .sidebar-top h3{
+    font-size:22px;
+    color:#1e473d;
+    }
+    
+    .sidebar-top span{
+    color:#666;
+    font-size:14px;
+    }
+    
+    .close-btn{
+    align-self:flex-end;
+    font-size:22px;
+    cursor:pointer;
+    margin-bottom:20px;
+    }
+    
+    .sidebar-content{
+    margin-top:40px;
+    }
+    
+    .section-title{
+    font-size:13px;
+    font-weight:bold;
+    color:#888;
+    margin-bottom:20px;
+    }
+    
+    .sidebar-content ul{
+    list-style:none;
+    }
+    
+    .sidebar-content li{
+    margin-bottom:18px;
+    }
+    
+    .sidebar-content a{
+    text-decoration:none;
+    font-size:17px;
+    color:#23433b;
+    transition:0.3s;
+    }
+    
+    .sidebar-content a:hover{
+    color:#2e7d32;
+    padding-left:6px;
+    }
+    
+    /* OVERLAY */
+    
+    .overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.4);
+    opacity:0;
+    visibility:hidden;
+    transition:0.3s;
+    z-index:1000;
+    }
+    
+    .overlay.active{
+    opacity:1;
+    visibility:visible;
+    }
+    
+    /* HERO */
+    
+    .hero{
+    background:url("https://images.unsplash.com/photo-1490645935967-10de6ba17061") center/cover;
+    padding:120px 20px;
+    display:flex;
+    justify-content:center;
+    }
+    
+    .hero-card{
+    background:white;
+    padding:40px;
+    border-radius:30px;
+    max-width:500px;
+    }
+    
+    .hero-card h1{
+    font-size:42px;
+    margin-bottom:20px;
+    }
+    
+    .hero-card p{
+    font-size:18px;
+    line-height:1.6;
+    }
+    
+    /* COMO FUNCIONA */
+    
+    .como-funciona{
+    background:#d9e0df;
+    padding:80px 20px;
+    text-align:center;
+    }
+    
+    .como-funciona h2{
+    font-size:36px;
+    margin-bottom:20px;
+    }
+    
+    .descricao{
+    max-width:700px;
+    margin:auto;
+    margin-bottom:60px;
+    font-size:18px;
+    }
+    
+    .passo{
+    margin-bottom:50px;
+    }
+    
+    .passo h3{
+    font-size:40px;
+    opacity:0.6;
+    }
+    
+    .passo h4{
+    font-size:22px;
+    margin:10px 0;
+    }
+    
+    .passo p{
+    max-width:500px;
+    margin:auto;
+    line-height:1.6;
+    }
+    
+    /* SAUDE */
+    
+    .saude{
+    padding:80px 20px;
+    display:flex;
+    justify-content:center;
+    }
+    
+    .saude-card{
+    background:#c6d8b3;
+    padding:40px;
+    border-radius:30px;
+    max-width:500px;
+    }
+    
+    .saude-card h2{
+    font-size:32px;
+    margin-bottom:20px;
+    }
+    
+    .saude-card p{
+    line-height:1.7;
+    margin-bottom:30px;
+    }
+    
+    .saude-card button{
+    background:#2e7d32;
+    border:none;
+    color:white;
+    padding:15px 30px;
+    border-radius:30px;
+    font-size:16px;
+    cursor:pointer;
+    }
+    
+    /* FOOTER */
+    
+    footer{
+    background:#ffffff;
+    padding:60px 20px;
+    }
+    
+    .footer-logo{
+    font-weight:700;
+    font-size:20px;
+    margin-bottom:20px;
+    }
+    
+    footer p{
+    max-width:600px;
+    margin-bottom:10px;
+    }
+    
+    .copy{
+    opacity:0.6;
+    margin-top:10px;
+    }
+    
+    .contato{
+    margin-top:30px;
+    }

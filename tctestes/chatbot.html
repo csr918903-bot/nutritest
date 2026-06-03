@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chatbot Nutrivida</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+.chat-page{
+min-height:100vh;
+background:linear-gradient(135deg,#22892594,#ffffff,#c8e6c9);
+padding:40px 20px;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.chat-box{
+background:white;
+width:100%;
+max-width:700px;
+padding:30px;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+.chat-output{
+height:400px;
+overflow-y:auto;
+padding:15px;
+background:#f5f5f5;
+border-radius:15px;
+margin-bottom:15px;
+}
+
+.msg{
+margin-bottom:15px;
+padding:10px;
+border-radius:10px;
+}
+
+.user{
+background:#c8e6c9;
+}
+
+.bot{
+background:#eeeeee;
+}
+
+.chat-input{
+display:flex;
+gap:10px;
+}
+
+.chat-input input{
+flex:1;
+padding:12px;
+border-radius:10px;
+border:1px solid #ccc;
+}
+
+.chat-input button{
+padding:12px 20px;
+border:none;
+background:#629765;
+color:white;
+border-radius:10px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+
+<div class="logo">
+🌱 <span>Nutrivida</span>
+</div>
+
+<div class="navbar-actions">
+
+<div class="user-profile-img">
+<a href="profile.html">
+<img id="navbarProfile" src="https://via.placeholder.com/35">
+</a>
+</div>
+
+<div class="menu-icon" id="hamburger">☰</div>
+
+</div>
+
+</header>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<div class="sidebar-top">
+
+<div class="close-btn" id="closeMenu">✖</div>
+
+<a href="profile.html">
+<img 
+id="sidebarProfile"
+src="https://ui-avatars.com/api/?name=Nutri+Vida&background=1e473d&color=fff">
+</a>
+
+<h3 id="sidebarName">Nutrivida</h3>
+
+<span>Seja bem vindo</span>
+
+</div>
+
+<div class="sidebar-content">
+
+<p class="section-title">GERAL</p>
+
+<ul>
+
+<li><a href="index.html"> Início</a></li>
+
+<li><a href="chatbot.html"> Chatbot</a></li>
+
+<li><a href="profile.html"> Perfil</a></li>
+
+<li><a href="login.html"> Login</a></li>
+
+<li><a href="calcuimc.html">imc</a></li>
+</ul>
+
+</div>
+
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- CHAT -->
+<section class="chat-page">
+
+<div class="chat-box">
+
+<h2>Assistente Nutri</h2>
+
+<div class="chat-output" id="chat-output"></div>
+
+<div class="chat-input">
+
+<input type="text" id="user-input" placeholder="Digite sua mensagem">
+
+<button onclick="enviar()">Enviar</button>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+const menuBtn = document.getElementById("hamburger");
+const sidebar = document.querySelector(".sidebar");
+const overlay = document.getElementById("overlay");
+const closeBtn = document.getElementById("closeMenu");
+
+menuBtn.addEventListener("click", () => {
+
+sidebar.classList.add("active");
+overlay.classList.add("active");
+
+});
+
+function closeMenu(){
+
+sidebar.classList.remove("active");
+overlay.classList.remove("active");
+
+}
+
+overlay.addEventListener("click", closeMenu);
+
+closeBtn.addEventListener("click", closeMenu);
+
+// PERFIL
+const savedPhoto = localStorage.getItem("profilePhoto");
+
+if(savedPhoto){
+
+document.getElementById("navbarProfile").src = savedPhoto;
+document.getElementById("sidebarProfile").src = savedPhoto;
+
+}
+
+const savedName = localStorage.getItem("profileName");
+
+if(savedName){
+
+document.getElementById("sidebarName").innerText = savedName;
+
+}
+
+//chat
+
+// =========================
+// CHAT NUTRIVIDA
+// =========================
+
+function temPalavra(texto, palavra){
+  return new RegExp(`\\b${palavra}\\b`, "i").test(texto);
+}
+
+// =========================
+// RESPOSTAS DO CHAT
+// =========================
+
+function responder(pergunta){
+
+  const p = pergunta.toLowerCase().trim();
+
+  // =========================
+  // SAUDAÇÃO
+  // =========================
+
+  if(
+    temPalavra(p,"oi") ||
+    temPalavra(p,"olá") ||
+    temPalavra(p,"ola") ||
+    temPalavra(p,"hi") ||
+    temPalavra(p,"hello")||
+    temPalavra(p,"eai")
+  ){
+    return "Olá! Sou seu assistente de nutrição. Posso ajudar com dietas, alimentação saudável, emagrecimento, hipertrofia e muito mais.";
+  }
+ 
+  else if(
+    p.includes("sua criação") ||
+    p.includes("para que voce foi feito") ||
+    p.includes("para que você foi feito")
+  ){
+    return "Fui criado para ajudar pessoas a terem uma alimentação mais saudável, oferecendo dicas, dietas e sugestões de acordo com os objetivos e necessidades do usuário.";
+  }
+
+  else if(
+    (p.includes("o que") || p.includes("oque")) &&
+    (p.includes("nutrivida") || p.includes("nutri"))
+  ){
+    return "Somos um grupo dedicado a promover informações sobre nutrição e qualidade de vida. Nosso objetivo é ajudar pessoas a entenderem a importância de uma alimentação equilibrada.";
+  }
+  else if(
+    temPalavra(p,"elfo")
+  ){
+    return "O elfo é um ser de luz que realiza desejos.";
+  }
+
+  else if(
+    temPalavra(p,"água") ||
+    temPalavra(p,"agua")
+  ){
+    return "O ideal é beber cerca de 2 litros de água por dia.";
+  }
+
+  
+  else if(
+    p.includes("proteina") ||
+    p.includes("proteínas")
+  ){
+    return "Proteínas ajudam na construção muscular. Exemplos: ovos, frango, peixe, carne, leite, iogurte, feijão e soja.";
+  }
+
+
+  else if(
+    p.includes("carboidrato") ||
+    p.includes("carbo")
+  ){
+    return "Carboidratos fornecem energia para o corpo. Bons exemplos: arroz, aveia, mandioca, batata-doce, pão integral e frutas.";
+  }
+
+  else if(
+    p.includes("gordura boa") ||
+    p.includes("gorduras boas")
+  ){
+    return "Gorduras boas ajudam no funcionamento do organismo. Exemplos: azeite, castanhas, amendoim, abacate e peixes.";
+  }
+
+  else if(
+    p.includes("vitamina") ||
+    p.includes("vitaminas")
+  ){
+    return "Vitaminas ajudam o corpo a funcionar corretamente. Frutas, legumes e verduras são ótimas fontes.";
+  }
+
+  else if(
+    p.includes("fibra") ||
+    p.includes("fibras")
+  ){
+    return "Fibras ajudam na digestão e aumentam a saciedade. Exemplos: aveia, frutas, legumes, verduras e chia.";
+  }
+
+  else if(
+    p.includes("alimentação saudável") ||
+    p.includes("alimentaçao saudavel") ||
+    p.includes("algo saudavel") ||
+    temPalavra(p,"saudável") ||
+    temPalavra(p,"saudavel")
+  ){
+    return "Uma alimentação saudável inclui frutas, verduras, proteínas magras, carboidratos bons e gorduras saudáveis. Evite excesso de açúcar, refrigerante e ultraprocessados.";
+  }
+
+  else if(
+    p.includes("alimentação pesada") ||
+    p.includes("alimentaçao pesada") ||
+    (
+      (temPalavra(p,"alimentação") || temPalavra(p,"alimentaçao")) &&
+      temPalavra(p,"pesada")
+    )
+  ){
+    return "Alimentação pesada: aumente carboidratos como arroz, macarrão e batata. Consuma proteínas em todas as refeições e inclua gorduras boas.";
+  }
+
+  else if(
+    temPalavra(p,"alimentação") ||
+    temPalavra(p,"alimentaçao")
+  ){
+    return "Qual tipo de alimentação você gostaria?";
+  }
+
+  else if(
+    p.includes("emagrecer") ||
+    p.includes("perder peso") ||
+    p.includes("menos peso")
+  ){
+    return "Para emagrecer: mantenha déficit calórico, pratique exercícios físicos, consuma proteínas e reduza ultraprocessados.";
+  }
+
+
+  else if(
+    p.includes("dieta para emagrecer") ||
+    p.includes("dieta emagrecer")
+  ){
+    return "Dieta para emagrecer: café da manhã com frutas e aveia, almoço com arroz integral, feijão, salada e frango grelhado, lanche leve e jantar mais leve.";
+  }
+
+  // =========================
+  // HIPERTROFIA
+  // =========================
+
+  else if(
+    p.includes("hipertrofia") ||
+    p.includes("massa muscular") ||
+    p.includes("ganhar massa")
+  ){
+    return "Para ganhar massa muscular: aumente proteínas, carboidratos bons e pratique musculação regularmente.";
+  }
+
+  // =========================
+  // DIETA HIPERTROFIA
+  // =========================
+
+  else if(
+    p.includes("dieta hipertrofia") ||
+    p.includes("dieta para ganhar massa")
+  ){
+    return "Dieta para hipertrofia: ovos e aveia no café da manhã, arroz, feijão e carne no almoço, banana com pasta de amendoim no lanche e jantar rico em proteínas.";
+  }
+
+  // =========================
+  // ENGORDAR
+  // =========================
+
+  else if(
+    p.includes("engordar") ||
+    p.includes("ganhar peso") ||
+    p.includes("mais peso")
+  ){
+    return "Para ganhar peso de forma saudável: faça mais refeições ao longo do dia, aumente alimentos nutritivos e mantenha proteínas em todas as refeições.";
+  }
+
+  // =========================
+  // DIETA VEGANA
+  // =========================
+
+  else if(
+    p.includes("vegana") ||
+    p.includes("veganismo")
+  ){
+    return "Uma dieta vegana deve incluir feijão, lentilha, grão-de-bico, tofu, soja, arroz, aveia, frutas, legumes e suplementação de vitamina B12.";
+  }
+
+  // =========================
+  // LOW CARB
+  // =========================
+
+  else if(
+    p.includes("low carb")
+  ){
+    return "A dieta low carb reduz carboidratos e aumenta proteínas e gorduras boas.";
+  }
+
+  // =========================
+  // CETOGÊNICA
+  // =========================
+
+  else if(
+    p.includes("cetogênica") ||
+    p.includes("cetogenica")
+  ){
+    return "A dieta cetogênica possui poucos carboidratos e bastante gordura boa.";
+  }
+
+  // =========================
+  // MEDITERRÂNEA
+  // =========================
+
+  else if(
+    p.includes("mediterrânea") ||
+    p.includes("mediterranea")
+  ){
+    return "A dieta mediterrânea prioriza azeite, peixes, frutas, verduras, legumes e castanhas.";
+  }
+
+  // =========================
+  // JEJUM
+  // =========================
+
+  else if(
+    p.includes("jejum")
+  ){
+    return "Jejum intermitente é uma estratégia alimentar baseada em períodos sem comer.";
+  }
+
+  // =========================
+  // PRÉ TREINO
+  // =========================
+
+  else if(
+    p.includes("pré treino") ||
+    p.includes("pre treino")
+  ){
+    return "Boas opções de pré treino: banana, café, aveia e pão integral.";
+  }
+
+  // =========================
+  // PÓS TREINO
+  // =========================
+
+  else if(
+    p.includes("pós treino") ||
+    p.includes("pos treino")
+  ){
+    return "No pós treino prefira proteínas e carboidratos como ovos, arroz, frango ou banana.";
+  }
+
+  // =========================
+  // CAFÉ DA MANHÃ
+  // =========================
+
+  else if(
+    p.includes("café da manhã") ||
+    p.includes("cafe da manhã") ||
+    p.includes("cafe da manha")
+  ){
+    return "Boas opções de café da manhã: ovos, frutas, aveia, pão integral e iogurte.";
+  }
+
+  // =========================
+  // ALMOÇO
+  // =========================
+
+  else if(
+    temPalavra(p,"almoço") ||
+    temPalavra(p,"almoco")
+  ){
+    return "Um almoço saudável pode ter arroz, feijão, proteína magra e salada.";
+  }
+
+  // =========================
+  // JANTAR
+  // =========================
+
+  else if(
+    temPalavra(p,"jantar")
+  ){
+    return "No jantar prefira refeições leves e nutritivas.";
+  }
+
+  // =========================
+  // DOCES
+  // =========================
+
+  else if(
+    p.includes("doce") ||
+    p.includes("doces")
+  ){
+    return "Doces podem ser consumidos com equilíbrio. Evite exageros.";
+  }
+
+  // =========================
+  // REFRIGERANTE
+  // =========================
+
+  else if(
+    p.includes("refrigerante")
+  ){
+    return "Refrigerantes possuem muito açúcar e pouco valor nutricional.";
+  }
+
+  // =========================
+  // DIETA
+  // =========================
+
+  else if(
+    temPalavra(p,"dieta")
+  ){
+    return "Uma dieta equilibrada possui proteínas, carboidratos, gorduras boas, vitaminas e minerais.";
+  }
+
+  // =========================
+  // PESO
+  // =========================
+
+  else if(
+    temPalavra(p,"peso")
+  ){
+    return "Você gostaria de perder peso, ganhar peso ou ganhar massa muscular?";
+  }
+
+  // =========================
+  // PALAVRAS OFENSIVAS
+  // =========================
+
+  else if(
+    p.includes("porra") ||
+    p.includes("smt") ||
+    p.includes("vai se fuder") ||
+    p.includes("desgraça") ||
+    p.includes("cu") ||
+    p.includes("vagabundo") ||
+    p.includes("vagabunda")
+  ){
+    return "Vamos manter o respeito! Estou aqui para ajudar com informações sobre nutrição.";
+  }
+// ANSIEDADE
+else if(
+  p.includes("ansiedade")
+){
+  return "Alimentos ricos em magnésio, ômega 3 e triptofano podem ajudar no bem-estar, como banana, aveia, peixe, castanhas e cacau.";
+}
+
+// DEPRESSÃO
+else if(
+  p.includes("depressão") ||
+  p.includes("depressao")
+){
+  return "Uma alimentação equilibrada pode ajudar no humor. Frutas, vegetais, proteínas, ômega 3 e boa hidratação são importantes.";
+}
+
+// ESQUIZOFRENIA
+else if(
+  p.includes("esquizofrenia")
+){
+  return "Uma alimentação equilibrada pode ajudar na saúde geral. Algumas pessoas focam em ômega 3, vegetais e alimentos menos ultraprocessados, mas o acompanhamento médico é essencial.";
+}
+
+// INSÔNIA
+else if(
+  p.includes("insônia") ||
+  p.includes("insonia")
+){
+  return "Evite cafeína à noite e prefira alimentos leves no jantar. Chá de camomila, banana e aveia podem ajudar no relaxamento.";
+}
+
+// DIABETES
+else if(
+  p.includes("diabetes")
+){
+  return "Pessoas com diabetes geralmente devem controlar açúcar e preferir carboidratos integrais, fibras e proteínas.";
+}
+
+// PRESSÃO ALTA
+else if(
+  p.includes("pressão alta") ||
+  p.includes("hipertensão")
+){
+  return "Reduzir excesso de sal e ultraprocessados pode ajudar. Frutas, verduras e bastante água são recomendados.";
+}
+
+// ANEMIA
+else if(
+  p.includes("anemia")
+){
+  return "Alimentos ricos em ferro como feijão, carne e vegetais verdes podem ajudar. Vitamina C melhora a absorção.";
+}
+
+// TREINO
+else if(
+  p.includes("treino")
+){
+  return "Treino combinado com boa alimentação e descanso ajuda muito nos resultados.";
+}
+
+// SONO
+else if(
+  p.includes("sono")
+){
+  return "Dormir bem ajuda no metabolismo, recuperação muscular e saúde mental.";
+}
+
+// ESTRESSE
+else if(
+  p.includes("estresse") ||
+  p.includes("stress")
+){
+  return "Evite excesso de cafeína e ultraprocessados. Água, frutas e boa rotina de sono ajudam bastante.";
+}
+
+// CRIANÇA
+else if(
+  p.includes("criança")
+){
+  return "Crianças precisam de alimentação equilibrada com frutas, proteínas, verduras e carboidratos saudáveis.";
+}
+
+// IDOSO
+else if(
+  p.includes("idoso")
+){
+  return "Idosos precisam de boa hidratação, proteínas e vitaminas para manter músculos e saúde.";
+}
+
+// GRÁVIDA
+else if(
+  p.includes("grávida") ||
+  p.includes("gravida")
+){
+  return "Na gravidez é importante consumir ferro, cálcio, proteínas e fazer acompanhamento médico.";
+}
+
+// FAST FOOD
+else if(
+  p.includes("fast food")
+){
+  return "Fast food pode ser consumido às vezes, mas em excesso pode prejudicar a saúde.";
+}
+
+// ENERGÉTICO
+else if(
+  p.includes("energético") ||
+  p.includes("energetico")
+){
+  return "Energéticos possuem muita cafeína e açúcar. Evite exageros.";
+}
+
+// CAFÉ
+else if(
+  p.includes("café") ||
+  p.includes("cafe")
+){
+  return "O café pode dar energia e melhorar foco, mas em excesso pode causar ansiedade e insônia.";
+}
+
+// HAMBÚRGUER
+else if(
+  p.includes("hambúrguer") ||
+  p.includes("hamburguer")
+){
+  return "Hambúrguer pode fazer parte da alimentação às vezes, principalmente se combinado com equilíbrio.";
+}
+
+// PIZZA
+else if(
+  p.includes("pizza")
+){
+  return "Pizza pode ser consumida com moderação. Sabores com legumes e proteínas costumam ser melhores.";
+}
+////algumas isanas desnecessario mais ta né ;-;
+else if(
+  p.includes("virei um sapo")
+){
+  return "Talvez você precise de água, descanso e menos energia caótica;-;🐸";
+}
+
+else if(
+  p.includes("comi 14 pizzas")
+){
+  return "Seu estômago entrou em modo sobrevivência 💀";
+}
+
+else if(
+  p.includes("quero shape")
+){
+  return "Shape vem com treino, dieta e sofrimento emocional na academia 💪";
+}
+
+else if(
+  p.includes("to triste") ||
+  p.includes("estou triste")
+){
+  return "Espero que você fique melhor logo 💛 descansar, conversar e cuidar da alimentação pode ajudar.";
+}
+
+else if(
+  p.includes("to feliz")
+){
+  return "Perfeito continue cuidando da sua saúde e da mental.";
+}
+
+else if(
+  p.includes("posso viver de miojo")
+){
+  return "Seu corpo provavelmente abriria um processo judicial contra você ;_;";
+}
+
+else if(
+  p.includes("comi cimento")
+){
+  return "Acho melhor não transformar seu intestino em uma obra da prefeitura 🧱";
+}
+
+else if(
+  p.includes("quero virar gigante")
+){
+  return "Proteína, treino, sono e muita paciência ou renascer mesmo";
+}
+
+else if(
+  p.includes("quero virar o cbum")
+){
+  return "Primeiro passo: vender sua alma pra academia 💀";
+}
+
+else if(
+  p.includes("to com fome")
+){
+  return "complicado...";
+}
+
+else if(
+  p.includes("me ajuda")
+){
+  return "Claro que ajudo me fale sobre dieta, treino, emagrecimento ou alimentação.";
+}
+
+else if(
+  p.includes("vou morrer")
+){
+  return "Beba água, descanse e não faça dieta baseada em energético ou cigarro 😭";
+}
+
+else if(
+  p.includes("energia infinita")
+){
+  return "Dormir cedo já seria um ótimo começo ⚡";
+}
+
+else if(
+  p.includes("comi muito")
+){
+  return "Acontece o equilíbrio ao longo da semana é mais importante.";
+}
+
+else if(
+  p.includes("to gordo")
+){
+  return "O mais importante é cuidar da saúde e do bem-estar 💛";
+}
+
+else if(
+  p.includes("to magro")
+){
+  return "Com alimentação adequada e treino você pode ganhar massa 💪";
+}
+
+else if(
+  p.includes("quero ficar monstrão")
+){
+  return "Frango, arroz e ódio da segunda-feira 😎";
+}
+
+else if(
+  p.includes("treino fofo")
+){
+  return "Até treino fofo dói no outro dia 😭";
+}
+
+else if(
+  p.includes("academia")
+){
+  return "Academia + alimentação + sono = evolução 💪";
+}
+
+else if(
+  p.includes("dor pós treino") ||
+  p.includes("dor pos treino")
+){
+  return "A famosa dor que faz a pessoa sentar igual idoso 😭";
+}
+
+else if(
+  p.includes("quantos ovos")
+){
+  return "Depende do seu objetivo, mas ovos são ótimas fontes de proteína.";
+}
+
+else if(
+  p.includes("frango e arroz")
+){
+  return "A refeição sagrada da hipertrofia 💪";
+}
+
+else if(
+  p.includes("pizza todo dia")
+){
+  return "Seu nutricionista provavelmente desmaiaria vendo isso 😭";
+}
+
+else if(
+  p.includes("refrigerante todo dia")
+){
+  return "Seu pâncreas pediu demissão 💀";
+}
+
+else if(
+  p.includes("só durmo")
+){
+  return "Pelo menos o shape de hibernação tá vindo 😭";
+}
+
+else if(
+  p.includes("não gosto de salada")
+){
+  return "Todo vilão tem uma origem 😭";
+}
+
+else if(
+  p.includes("comi 3 hambúrguer")
+){
+  return "O chef ficou feliz, seu corpo talvez nem tanto 😭";
+}
+
+else if(
+  p.includes("to virando academia")
+){
+  return "Daqui a pouco você começa a respirar whey 💀";
+}
+
+else if(
+  p.includes("whey")
+){
+  return "Whey ajuda na proteína, mas não faz milagre sozinho.";
+}
+
+else if(
+  p.includes("pré treino")
+){
+  return "O pó mágico que faz a pessoa tremer igual liquidificador ⚡";
+}
+
+else if(
+  p.includes("leg day")
+){
+  return "O verdadeiro teste de sobrevivência humana 💀";
+}
+
+else if(
+  p.includes("odeio cardio")
+){
+  return "Metade da humanidade concorda com você 😭";
+}
+
+else if(
+  p.includes("amo comer")
+){
+  return "Você e literalmente toda a humanidade 🤝";
+}
+
+else if(
+  p.includes("to parecendo uma geladeira")
+){
+  return "Importante é estar saudável 😭";
+}
+
+else if(
+  p.includes("quero secar")
+){
+  return "Déficit calórico, treino e paciência são o caminho 🔥";
+}
+
+else if(
+  p.includes("bulking")
+){
+  return "A fase onde tudo vira desculpa pra comer 😭";
+}
+
+else if(
+  p.includes("cutting")
+){
+  return "A fase onde até o cheiro da comida dá fome 💀";
+}
+  // =========================
+  // RESPOSTA PADRÃO
+  // =========================
+
+  return "Ainda estou aprendendo sobre isso.sorry channel";
+
+}
+
+// =========================
+// ELEMENTOS DO CHAT
+// =========================
+
+const chatOutput = document.getElementById("chat-output");
+
+// =========================
+// ADICIONAR MENSAGEM
+// =========================
+
+function addMsg(texto, tipo){
+
+  const div = document.createElement("div");
+
+  div.className = "msg " + tipo;
+
+  div.innerText = texto;
+
+  chatOutput.appendChild(div);
+
+  chatOutput.scrollTop = chatOutput.scrollHeight;
+
+}
+
+// =========================
+// ENVIAR MENSAGEM
+// =========================
+
+function enviar(){
+
+  const input = document.getElementById("user-input");
+
+  const texto = input.value.trim();
+
+  if(!texto) return;
+
+  addMsg(texto, "user");
+
+  input.value = "";
+
+  setTimeout(() => {
+
+    addMsg(responder(texto), "bot");
+
+  }, 500);
+
+}
+
+// =========================
+// MENSAGEM INICIAL
+// =========================
+
+addMsg("Olá! Pergunte algo sobre nutrição.", "bot");
+
+// =========================
+// ENTER PARA ENVIAR
+// =========================
+
+const input = document.getElementById("user-input");
+
+input.addEventListener("keydown", function(event){
+
+  if(event.key === "Enter"){
+
+    event.preventDefault();
+
+    enviar();
+
+  }
+
+});
+
+// =========================
+// SINCRONIZAR USUÁRIO
+// =========================
+
+function syncUser(){
+
+  const name =
+    localStorage.getItem("profileName") || "Nutrivida";
+
+  const photo =
+    localStorage.getItem("profilePhoto") ||
+    "https://ui-avatars.com/api/?name=Nutrivida";
+
+  const sidebarName =
+    document.getElementById("sidebarName");
+
+  const navbarProfile =
+    document.getElementById("navbarProfile");
+
+  const sidebarProfile =
+    document.getElementById("sidebarProfile");
+
+  if(sidebarName) sidebarName.innerText = name;
+
+  if(navbarProfile) navbarProfile.src = photo;
+
+  if(sidebarProfile) sidebarProfile.src = photo;
+
+}
+
+// =========================
+// EVENTOS
+// =========================
+
+document.addEventListener(
+  "DOMContentLoaded",
+  syncUser
+);
+
+window.addEventListener(
+  "storage",
+  syncUser
+);
+
+</script>
+```
+
+
+</body>
+</html>

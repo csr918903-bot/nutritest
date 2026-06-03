@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login - Nutrivida</title>
+
+<link rel="stylesheet" href="style.css">
+
+<!-- Fonte -->
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+<!-- GOOGLE ICON -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- GOOGLE GSI (LOGIN OFICIAL) -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Montserrat, Arial, sans-serif;
+background:linear-gradient(135deg,#d8f3dc,#ffffff);
+min-height:100vh;
+overflow-x:hidden;
+}
+
+/* CONTAINER */
+
+.login-container{
+display:flex;
+justify-content:center;
+align-items:center;
+padding:120px 20px 40px;
+}
+
+/* FORM */
+
+#msform{
+width:100%;
+max-width:450px;
+position:relative;
+}
+
+#msform fieldset{
+background:white;
+border:0;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+padding:30px;
+width:100%;
+position:relative;
+}
+
+#msform fieldset:not(:first-of-type){
+display:none;
+}
+
+/* INPUTS */
+
+#msform input,
+#msform textarea,
+#msform select{
+padding:14px;
+border:1px solid #ccc;
+border-radius:10px;
+margin-bottom:15px;
+width:100%;
+font-size:14px;
+outline:none;
+}
+
+/* BOTÕES */
+
+.action-button{
+width:120px;
+background:#2e7d32;
+font-weight:bold;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+padding:12px;
+margin:10px 5px;
+transition:0.3s;
+}
+
+.action-button:hover{
+background:#256428;
+}
+
+/* GOOGLE BTN */
+
+.google-btn{
+width:100%;
+background:white;
+border:1px solid #ddd;
+padding:14px;
+border-radius:10px;
+cursor:pointer;
+font-size:14px;
+font-weight:bold;
+color:#444;
+transition:0.3s;
+margin-bottom:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+}
+
+.google-btn:hover{
+background:#f5f5f5;
+}
+
+.google-btn i{
+color:#DB4437;
+font-size:18px;
+}
+
+/* DIVIDER */
+
+.divider{
+display:flex;
+align-items:center;
+text-align:center;
+margin:15px 0;
+color:#999;
+font-size:13px;
+}
+
+.divider::before,
+.divider::after{
+content:"";
+flex:1;
+border-bottom:1px solid #ddd;
+}
+
+.divider::before{
+margin-right:.75em;
+}
+
+.divider::after{
+margin-left:.75em;
+}
+
+/* TÍTULOS */
+
+.fs-title{
+font-size:24px;
+color:#1e473d;
+margin-bottom:10px;
+text-align:center;
+}
+
+.fs-subtitle{
+font-size:14px;
+color:#666;
+margin-bottom:20px;
+text-align:center;
+}
+
+/* PROGRESS BAR */
+
+#progressbar{
+margin-bottom:30px;
+overflow:hidden;
+counter-reset:step;
+display:flex;
+justify-content:space-between;
+padding:0;
+}
+
+#progressbar li{
+list-style:none;
+color:#2e7d32;
+text-transform:uppercase;
+font-size:11px;
+width:33%;
+position:relative;
+text-align:center;
+}
+
+#progressbar li::before{
+content:counter(step);
+counter-increment:step;
+width:30px;
+line-height:30px;
+display:block;
+font-size:13px;
+color:#333;
+background:white;
+border-radius:50%;
+margin:0 auto 10px;
+border:2px solid #2e7d32;
+}
+
+#progressbar li::after{
+content:'';
+width:100%;
+height:3px;
+background:#ddd;
+position:absolute;
+left:-50%;
+top:14px;
+z-index:-1;
+}
+
+#progressbar li:first-child::after{
+content:none;
+}
+
+#progressbar li.active::before,
+#progressbar li.active::after{
+background:#2e7d32;
+color:white;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:600px){
+
+#msform{
+width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+
+<div class="logo">
+🌱 <span>Nutrivida</span>
+</div>
+
+<div class="navbar-actions">
+
+<div class="user-profile-img">
+
+<a href="profile.html">
+
+<img
+id="navbarProfile"
+src="https://via.placeholder.com/35"
+alt="Perfil">
+
+</a>
+
+</div>
+
+<div class="menu-icon" id="hamburger">
+☰
+</div>
+
+</div>
+
+</header>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<div class="sidebar-top">
+
+<div class="close-btn" id="closeMenu">✖</div>
+
+<a href="profile.html">
+
+<img
+id="sidebarProfile"
+src="https://ui-avatars.com/api/?name=Nutri+Vida&background=1e473d&color=fff"
+alt="User">
+
+</a>
+
+<h3 id="sidebarName">Nutrivida</h3>
+
+<span>Seja bem vindo</span>
+
+</div>
+
+<div class="sidebar-content">
+
+<p class="section-title">GERAL</p>
+
+<ul>
+
+<li><a href="index.html"> Início</a></li>
+
+<li><a href="chatbot.html"> Chatbot</a></li>
+
+<li><a href="profile.html"> Perfil</a></li>
+
+<li><a href="login.html"> Login</a></li>
+
+</ul>
+
+</div>
+
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- LOGIN -->
+<div class="login-container">
+
+<form id="msform">
+
+<ul id="progressbar">
+
+<li class="active">Conta</li>
+
+<li>Origem</li>
+
+<li>Detalhes</li>
+
+</ul>
+
+<!-- PASSO 1 -->
+<fieldset>
+
+<h2 class="fs-title">Criar Conta</h2>
+<fieldset>
+<h3 class="fs-subtitle">Passo 1</h3>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login com LocalStorage</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label>Usuário:</label><br>
+        <input type="text" id="username" required><br><br>
+        <label>Senha:</label><br>
+        <input type="password" id="password" required><br><br>
+        
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede o envio do form
+           
+            // Pega os valores
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+           
+            // Salva no LocalStorage
+            localStorage.setItem('loginUser', user);
+ 
+            localStorage.setItem('loginPass', pass);
+           
+            alert('Informações de login salvas localmente!');
+        });
+    </script>
+</body>
+</html>
+
+<!-- GOOGLE LOGIN (AGORA FUNCIONA DE VERDADE) -->
+<div id ="googleLogin"></div>
+
+<input type="button" class="next action-button" value="Próximo">
+</fieldset>
+<!-- PASSO 2 -->
+<fieldset>
+<h2 class="fs-title">Onde nos conheceu?</h2>
+
+<h3 class="fs-subtitle">Conte para nós</h3>
+
+<input type="text" placeholder="Ex: Instagram">
+
+<select>
+
+<option>Selecione uma opção</option>
+
+<option>Instagram</option>
+
+<option>TikTok</option>
+
+<option>YouTube</option>
+
+<option>Familiar</option>
+
+<option>Amigos</option>
+
+<option>Outro</option>
+
+</select>
+
+<textarea placeholder="Fale mais..."></textarea>
+
+<input type="button" class="previous action-button" value="Voltar">
+
+<input type="button" class="next action-button" value="Próximo">
+</fieldset>
+<!-- PASSO 3 -->
+<fieldset>
+
+<h2 class="fs-title">Detalhes Pessoais</h2>
+
+<h3 class="fs-subtitle">Último passo</h3>
+
+<input type="text" placeholder="Nome">
+
+<input type="text" placeholder="Sobrenome">
+
+<input type="text" placeholder="Telefone">
+
+
+
+<input type="button" class="previous action-button" value="Voltar">
+
+<button type="submit" class="action-button">Finalizar</button>
+
+</fieldset>
+
+</form>
+
+</div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+<script>
+
+/* =========================
+   MENU (igual seu original)
+========================= */
+
+const menuBtn = document.getElementById("hamburger");
+const sidebar = document.querySelector(".sidebar");
+const overlay = document.getElementById("overlay");
+const closeBtn = document.getElementById("closeMenu");
+
+menuBtn.addEventListener("click", () => {
+sidebar.classList.add("active");
+overlay.classList.add("active");
+});
+
+function closeMenu(){
+sidebar.classList.remove("active");
+overlay.classList.remove("active");
+}
+
+overlay.addEventListener("click", closeMenu);
+closeBtn.addEventListener("click", closeMenu);
+
+/* =========================
+   PERFIL
+========================= */
+
+const savedPhoto = localStorage.getItem("profilePhoto");
+
+if(savedPhoto){
+document.getElementById("navbarProfile").src = savedPhoto;
+document.getElementById("sidebarProfile").src = savedPhoto;
+}
+
+const savedName = localStorage.getItem("profileName");
+
+if(savedName){
+document.getElementById("sidebarName").innerText = savedName;
+}
+
+/* =========================
+   GOOGLE LOGIN FUNCIONANDO
+========================= */
+
+window.onload = function () {
+
+  google.accounts.id.initialize({
+    client_id: "115224361953-9dhnld14brpahb20mg67i2ct63k2aiou.apps.googleusercontent.com",
+    callback: handleGoogle
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById("googleLogin"),
+    {
+      theme: "outline",
+      size: "large",
+      width: "100%"
+    }
+  );
+
+};
+
+function handleGoogle(response){
+
+const user = parseJwt(response.credential);
+
+console.log(user);
+
+localStorage.setItem("googleUser", JSON.stringify(user));
+
+document.getElementById("navbarProfile").src = user.picture;
+document.getElementById("sidebarProfile").src = user.picture;
+document.getElementById("sidebarName").innerText = user.name;
+
+}
+
+/* decode token */
+function parseJwt(token){
+const base64Url = token.split('.')[1];
+const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+return JSON.parse(decodeURIComponent(atob(base64).split('').map(c =>
+'%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+).join('')));
+}
+
+/* FORM STEPS (seu original simplificado mantém funcionamento) */
+
+$(".next").click(function(){
+$(this).parent().hide().next().show();
+});
+
+$(".previous").click(function(){
+$(this).parent().hide().prev().show();
+});
+
+/* FINAL */
+document.getElementById("msform").addEventListener("submit", function(e){
+e.preventDefault();
+alert("Conta criada com sucesso!");
+window.location.href = "index.html";
+});
+function syncUser(){
+
+  const name = localStorage.getItem("profileName") || "Nutrivida";
+  const photo = localStorage.getItem("profilePhoto") || "https://ui-avatars.com/api/?name=Nutrivida";
+
+  const sidebarName = document.getElementById("sidebarName");
+  const navbarProfile = document.getElementById("navbarProfile");
+  const sidebarProfile = document.getElementById("sidebarProfile");
+
+  if(sidebarName) sidebarName.innerText = name;
+  if(navbarProfile) navbarProfile.src = photo;
+  if(sidebarProfile) sidebarProfile.src = photo;
+
+}
+
+/* carrega ao abrir página */
+document.addEventListener("DOMContentLoaded", syncUser);
+
+/* atualiza entre páginas */
+window.addEventListener("storage", syncUser);
+
+</script>
+
+</body>
+</html>
